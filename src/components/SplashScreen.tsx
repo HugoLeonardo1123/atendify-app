@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Animated, Dimensions } from "react-native";
 import styled from "styled-components/native";
+import theme from "../global/styles/theme";
 
 interface SplashScreenProps {
     onAnimationComplete?: () => void;
@@ -8,7 +9,7 @@ interface SplashScreenProps {
 
 const Container = styled.View`
     flex: 1;
-    background-color: #ffffff;
+    background-color: ${theme.colors.gray50};
     align-items: center;
     justify-content: center;
 `;
