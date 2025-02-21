@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import {ThemeProvider} from "styled-components";
 import {
     useFonts,
@@ -7,11 +6,11 @@ import {
     Montserrat_600SemiBold,
     Montserrat_700Bold
 } from '@expo-google-fonts/montserrat';
-import {Home} from "./src/screens/Home";
 import {Loading} from "./src/components/Loading";
 import theme from "./src/global/styles/theme"
 import {useState} from "react";
 import SplashScreen from "./src/components/SplashScreen";
+import MainNavigator from "./src/routes/mainNavigator";
 
 
 export default function App() {
@@ -25,7 +24,6 @@ export default function App() {
     });
 
     if(!fontsLoaded) {
-    //if(true) {
         return <Loading />;
     }
 
@@ -35,8 +33,7 @@ export default function App() {
                 <SplashScreen onAnimationComplete={() => setShowSplash(false)} />
             ) : (
                 <>
-                    <StatusBar style="auto" />
-                    <Home />
+                    <MainNavigator />
                 </>
             )}
         </ThemeProvider>
