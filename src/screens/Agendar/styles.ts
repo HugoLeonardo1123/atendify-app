@@ -5,12 +5,6 @@ import theme from "../../global/styles/theme";
 export const Container = styled.View`
     flex: 1;
     background-color: ${theme.colors.gray50};
-    align-items: center;
-    justify-content: center;
+    padding: 16px;
 `;
 
-export const Header = styled.View``
-export const UserWrapper = styled.View``
-export const UserData = styled.View``
-export const LogoutButton = styled.View``
-export const LogoutIcon = styled.View``

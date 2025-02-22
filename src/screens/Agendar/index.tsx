@@ -1,10 +1,10 @@
 import { Container } from "./styles";
-import { Text } from "react-native";
+import CustomCalendar from "../../components/CustomCalendar/CustomCalendar";
 
 export function Agendar() {
     return (
         <Container>
-            <Text style={{ textAlign: "center" }}>Agendar</Text>
+            <CustomCalendar />
         </Container>
     );
 }

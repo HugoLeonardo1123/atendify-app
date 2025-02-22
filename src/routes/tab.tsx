@@ -4,6 +4,7 @@ import { Home } from "../screens/Home";
 import { Horario } from "../screens/Horario";
 import { MaterialIcons } from '@expo/vector-icons';
 import {Agendar} from "../screens/Agendar";
+import theme from "../global/styles/theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +25,8 @@ export default function TabComponent({ onLogout }: { onLogout: () => void }) {
 
                     return <MaterialIcons name={iconName} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: "blue",
-                tabBarInactiveTintColor: "gray",
+                tabBarActiveTintColor: `${theme.colors.highlight3}`,
+                tabBarInactiveTintColor: `${theme.colors.gray200}`,
             })}
         >
             <Tab.Screen name="Home" component={Home} />

@@ -1,11 +1,7 @@
 import {
-    Container, HomeBody,
-    HomeHeader, IconBox, InfoBox, InfoText, LogoutButton,
+    Container, HomeBody, IconBox, InfoBox, InfoText,
     ProfessorInfo, ProfessorName,
     ProfessorPhoto,
-    StudentName,
-    StudentPhoto,
-    StudentProfile
 } from "./styles";
 import {useNavigation} from "@react-navigation/native";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -15,6 +11,7 @@ import theme from "../../global/styles/theme";
 import {RootStackParamList} from "../../types/types";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import React from "react";
+import {AppHeader} from "../../components/AppHeader/AppHeader";
 
 
 
@@ -23,23 +20,17 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'H
 export function Home() {
     const navigation = useNavigation<HomeScreenNavigationProp>();
 
-    const navigateToScheduling = () => {
+    const navegarParaAgendamentos = () => {
         navigation.navigate('Agendar');
     };
 
+    const navegarParaHorarios = () => {
+        navigation.navigate('Horario');
+    }
+
     return (
         <Container>
-            <HomeHeader>
-                <StudentProfile>
-                    <StudentPhoto></StudentPhoto>
-                    <StudentName>Mateus Borges</StudentName>
-                </StudentProfile>
-
-                <LogoutButton>
-                    <MaterialIcons name="logout" size={24} color="white" />
-                </LogoutButton>
-            </HomeHeader>
-
+            <AppHeader />
             <HomeBody>
                 <ProfessorInfo>
                     <ProfessorPhoto></ProfessorPhoto>
@@ -52,13 +43,13 @@ export function Home() {
                     <InfoText>4 agendamentos</InfoText>
                 </InfoBox>
                 <InfoBoxComponent
-                    onPress={navigateToScheduling}
+                    onPress={navegarParaHorarios}
                     icon={<MaterialIcons name="schedule" size={24} color="white" />}
                     text="Ver agendamentos"
                     bgColor={theme.colors.highlight2}
                 />
                 <InfoBoxComponent
-                    onPress={navigateToScheduling}
+                    onPress={navegarParaAgendamentos}
                     icon={<MaterialIcons name="event" size={24} color="white" />}
                     text="Novo agendamento"
                     bgColor={theme.colors.highlight3}

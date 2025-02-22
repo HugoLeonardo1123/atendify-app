@@ -7,6 +7,7 @@ const theme = {
         highlight1: '#E33629',
         highlight2: '#FF8000',
         highlight3: '#219B9D',
+        highlight4: '#319F43',
 
         gray200: '#867F8D',
         gray50: '#EEEEEE',
