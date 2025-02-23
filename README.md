@@ -20,4 +20,6 @@ Até o momento, foram implementadas as seguintes funcionalidades:
 - ✅ **Organização do código** conforme os padrões ensinados nas aulas.  
 - ✅ **Separação de estilos** em arquivos `.ts`, separados dos componentes `.tsx`.  
 - ✅ **Definição de tema global**, incluindo cores, fontes e strings dentro de `src/global`.  
-- ✅ **Tela de Splash e componente de Loading**.  
+- ✅ **Tela de Splash e componente de Loading**.
+- ✅ **Front-end das telas (JSX + estilos)**.
+- ✅ **Navegação entre as telas**.
