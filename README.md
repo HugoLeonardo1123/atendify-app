@@ -34,7 +34,7 @@ Nesta etapa, realizamos a configuração inicial do projeto e organizamos a estr
 - ✅ **Separação de estilos** em arquivos `.ts`, separados dos componentes `.tsx`.  
 - ✅ **Definição de tema global**, incluindo cores, fontes e strings dentro de `src/global`.
 
-  ### 📌 Etapa 03 - Implementação do Front-end do Atedify  
+### 📌 Etapa 03 - Implementação do Front-end do Atedify  
 
 Nesta etapa, foi realizada a implementação do front-end do aplicativo, com base no design desenvolvido no **Figma**. A implementação seguiu os padrões definidos nas aulas e incluiu os seguintes itens:  
 
