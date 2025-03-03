@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#EEEEEE"
-      }
+      },
+      "package": "com.anonymous.Atendify2025"
     },
     "web": {
       "favicon": "./assets/favicon.png"
