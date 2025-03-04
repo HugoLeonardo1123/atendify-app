@@ -17,11 +17,8 @@ import { RootStackParamList } from '../../types/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { AppHeader } from '../../components/AppHeader/AppHeader';
-import { CalendlyEventType } from '../../api/types/calendly';
-import {
-  getUserEventTypes,
-  getUserInfo,
-} from '../../api/services/calendlyService';
+import { getUserAvailability, getUserUri } from '../../api/calendly';
+import { AvailabilityResponse } from '../../api/types';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -30,37 +27,28 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 export function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [user, setUser] = useState<any>(null);
-  const [eventTypes, setEventTypes] = useState<CalendlyEventType[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [times, setTimes] = useState<AvailabilityResponse>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchCalendlyData() {
+    const fetchAvailabilitySchedule = async () => {
       try {
-        setLoading(true);
-        const userData = await getUserInfo();
-        const userUri = userData.resource?.uri;
+        const uri = await getUserUri();
+        if (!uri) return;
+        const response = await getUserAvailability(uri);
 
-        if (userUri) {
-          const eventTypesData = await getUserEventTypes(userUri);
-          setEventTypes(eventTypesData.collection || []);
-        }
-
-        setUser(userData.resource);
-      } catch (err) {
-        setError('Failed to load Calendly data');
-        console.error(err);
+        setTimes(response);
+      } catch (error) {
+        console.error('Error fetching availability schedule:', error);
       } finally {
         setLoading(false);
       }
-    }
+    };
 
-    fetchCalendlyData();
+    fetchAvailabilitySchedule();
   }, []);
 
-  console.log('eventTypes', eventTypes);
-  console.log('user', user);
+  console.log('Times with rules:', JSON.stringify(times, null, 2));
 
   const navegarParaAgendamentos = () => {
     navigation.navigate('Agendar');
