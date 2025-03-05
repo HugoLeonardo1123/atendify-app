@@ -15,10 +15,8 @@ import { InfoBoxComponent } from '../../components/InfoBoxContent';
 import theme from '../../global/styles/theme';
 import { RootStackParamList } from '../../types/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { AppHeader } from '../../components/AppHeader/AppHeader';
-import { getUserAvailability, getUserUri } from '../../api/calendly';
-import { AvailabilityResponse } from '../../api/types';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -27,28 +25,6 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
 
 export function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [times, setTimes] = useState<AvailabilityResponse>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAvailabilitySchedule = async () => {
-      try {
-        const uri = await getUserUri();
-        if (!uri) return;
-        const response = await getUserAvailability(uri);
-
-        setTimes(response);
-      } catch (error) {
-        console.error('Error fetching availability schedule:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAvailabilitySchedule();
-  }, []);
-
-  console.log('Times with rules:', JSON.stringify(times, null, 2));
 
   const navegarParaAgendamentos = () => {
     navigation.navigate('Agendar');

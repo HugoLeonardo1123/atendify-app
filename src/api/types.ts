@@ -1,15 +1,20 @@
-export type Rule = {
-  start_time: string;
-  end_time: string;
+export type TimeInterval = {
+  from: string;
+  to: string;
+};
+
+export type AvailabilityRule = {
+  type: 'wday' | 'date';
+  wday?: string;
+  date?: string;
+  intervals: TimeInterval[];
 };
 
 export type AvailabilitySchedule = {
   default: boolean;
   name: string;
-  rules: Rule[];
+  rules: AvailabilityRule[];
   timezone: string;
   uri: string;
   user: string;
 };
-
-export type AvailabilityResponse = AvailabilitySchedule[];
