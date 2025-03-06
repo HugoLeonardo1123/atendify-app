@@ -1,134 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar } from 'react-native-calendars';
-import { Container, TimeButton, SelectedDate, TimeButtonText } from './styles';
 import theme from '../../global/styles/theme';
-import { AvailabilitySchedule, TimeInterval } from '../../api/types';
+import React, { useEffect, useState } from 'react';
+import { Calendar } from 'react-native-calendars';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { AvailabilityRule } from '../../api/types';
 
-type Props = {
-  schedules: AvailabilitySchedule[];
-};
+interface CustomCalendarProps {
+  availabilityRules: AvailabilityRule[];
+}
 
-export default function CustomCalendar({ schedules }: Props) {
+const CustomCalendar: React.FC<CustomCalendarProps> = ({
+  availabilityRules,
+}) => {
+  const [markedDates, setMarkedDates] = useState<Record<string, any>>({});
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const [markedDates, setMarkedDates] = useState<{ [date: string]: any }>({});
 
-  const getDayOfWeek = (date: string): string => {
-    return new Date(date)
-      .toLocaleString('en-US', { weekday: 'long' })
-      .toLowerCase();
-  };
+  console.log('availabilityRules', availabilityRules);
 
   useEffect(() => {
-    const newMarkedDates: { [date: string]: any } = {};
+    const newMarkedDates: Record<string, any> = {};
 
-    schedules.forEach((schedule) => {
-      schedule.rules.forEach((rule) => {
-        if (rule.type === 'date' && rule.intervals.length > 0) {
-          if (rule.date) {
-            newMarkedDates[rule.date] = {
-              marked: true,
-              dotColor: theme.colors.highlight3,
-            };
-          }
-        } else if (rule.type === 'wday' && rule.intervals.length > 0) {
-          const startDate = new Date('2025-02-22');
-          const endDate = new Date('2025-08-30');
-          const currentDate = new Date(startDate);
-
-          while (currentDate <= endDate) {
-            const formattedDate = currentDate.toISOString().split('T')[0];
-            const dayOfWeek = getDayOfWeek(formattedDate);
-
-            if (dayOfWeek === rule.wday) {
-              newMarkedDates[formattedDate] = {
-                marked: true,
-                dotColor: theme.colors.highlight3,
-              };
-            }
-
-            currentDate.setDate(currentDate.getDate() + 1);
-          }
-        }
-      });
+    availabilityRules.forEach((rule) => {
+      if (rule.type === 'date' && rule.date && rule.intervals.length > 0) {
+        newMarkedDates[rule.date] = {
+          marked: true,
+          dotColor: theme.colors.highlight3,
+        };
+      }
     });
 
     setMarkedDates(newMarkedDates);
-  }, [schedules]);
+  }, [availabilityRules]);
 
-  const getAvailableTimesForDate = (date: string) => {
-    const dayOfWeek = getDayOfWeek(date);
-    const availableIntervals: TimeInterval[] = [];
+  const handleDayPress = (day: { dateString: string }) => {
+    setSelectedDate(day.dateString);
 
-    schedules.forEach((schedule) => {
-      const dateRule = schedule.rules.find(
-        (rule) => rule.type === 'date' && rule.date === date,
+    const ruleForDate = availabilityRules.find(
+      (rule) => rule.type === 'date' && rule.date === day.dateString,
+    );
+
+    if (ruleForDate && ruleForDate.intervals.length > 0) {
+      setAvailableTimes(
+        ruleForDate.intervals.map(
+          (interval) => `${interval.from} - ${interval.to}`,
+        ),
       );
-
-      if (dateRule) {
-        availableIntervals.push(...dateRule.intervals);
-        return;
-      }
-
-      const weekdayRule = schedule.rules.find(
-        (rule) =>
-          rule.type === 'wday' &&
-          rule.wday === dayOfWeek &&
-          rule.intervals.length > 0,
-      );
-
-      if (weekdayRule) {
-        availableIntervals.push(...weekdayRule.intervals);
-      }
-    });
-
-    return availableIntervals
-      .flatMap((interval) => generateTimesInInterval(interval))
-      .filter((time, index, self) => self.indexOf(time) === index)
-      .sort();
-  };
-
-  const generateTimesInInterval = (interval: TimeInterval): string[] => {
-    const times: string[] = [];
-    const [startHour, startMinute] = interval.from.split(':').map(Number);
-    const [endHour, endMinute] = interval.to.split(':').map(Number);
-
-    let currentHour = startHour;
-    let currentMinute = startMinute;
-
-    while (
-      currentHour < endHour ||
-      (currentHour === endHour && currentMinute <= endMinute)
-    ) {
-      const timeString = `${currentHour
-        .toString()
-        .padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
-      times.push(timeString);
-
-      currentMinute += 30;
-      if (currentMinute >= 60) {
-        currentHour++;
-        currentMinute -= 60;
-      }
+    } else {
+      setAvailableTimes([]);
     }
-
-    return times;
   };
-
-  useEffect(() => {
-    if (selectedDate) {
-      const times = getAvailableTimesForDate(selectedDate);
-      setAvailableTimes(times);
-    }
-  }, [selectedDate, schedules]);
 
   return (
-    <Container>
+    <View style={{ padding: 10 }}>
       <Calendar
-        current={'2025-02-22'}
-        minDate={'2025-02-22'}
-        maxDate={'2025-08-30'}
-        onDayPress={(day) => setSelectedDate(day.dateString)}
+        current={new Date().toISOString().split('T')[0]}
+        minDate={new Date().toISOString().split('T')[0]}
+        maxDate={'2025-12-31'}
+        onDayPress={handleDayPress}
         markedDates={{
           ...markedDates,
           ...(selectedDate
@@ -136,6 +64,8 @@ export default function CustomCalendar({ schedules }: Props) {
                 [selectedDate]: {
                   selected: true,
                   selectedColor: theme.colors.primary200,
+                  marked: true,
+                  dotColor: theme.colors.highlight3,
                 },
               }
             : {}),
@@ -151,22 +81,36 @@ export default function CustomCalendar({ schedules }: Props) {
       />
 
       {selectedDate && (
-        <>
-          <SelectedDate>Horários para {selectedDate}:</SelectedDate>
+        <View style={{ marginTop: 20, paddingHorizontal: 10 }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>
+            Available times for {selectedDate}:
+          </Text>
+
           {availableTimes.length > 0 ? (
             availableTimes.map((time, index) => (
-              <TimeButton
+              <TouchableOpacity
                 key={`${selectedDate}-${time}-${index}`}
-                onPress={() => console.log(`Selecionado: ${time}`)}
+                onPress={() => console.log(`Selected: ${time}`)}
+                style={{
+                  padding: 12,
+                  backgroundColor: theme.colors.primary200,
+                  borderRadius: 8,
+                  marginBottom: 5,
+                  alignItems: 'center',
+                }}
               >
-                <TimeButtonText>{time}</TimeButtonText>
-              </TimeButton>
+                <Text style={{ color: '#fff', fontSize: 16 }}>{time}</Text>
+              </TouchableOpacity>
             ))
           ) : (
-            <SelectedDate>Sem horários disponíveis</SelectedDate>
+            <Text style={{ fontSize: 14, color: theme.colors.gray200 }}>
+              No available times
+            </Text>
           )}
-        </>
+        </View>
       )}
-    </Container>
+    </View>
   );
-}
+};
+
+export default CustomCalendar;

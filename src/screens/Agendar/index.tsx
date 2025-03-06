@@ -1,4 +1,4 @@
-import { Container } from './styles';
+import { Container, Message } from './styles';
 import CustomCalendar from '../../components/CustomCalendar/CustomCalendar';
 import { AppHeader } from '../../components/AppHeader/AppHeader';
 import { ScrollView } from 'react-native';
@@ -41,7 +41,13 @@ export function Agendar() {
     <Container>
       <AppHeader />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <CustomCalendar schedules={schedules} />
+        {schedules.length > 0 ? (
+          <CustomCalendar availabilityRules={schedules[0].rules} />
+        ) : (
+          <>
+            <Message>No schedules available</Message>
+          </>
+        )}
       </ScrollView>
     </Container>
   );
