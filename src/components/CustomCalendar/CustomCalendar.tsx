@@ -15,8 +15,6 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
 
-  console.log('availabilityRules', availabilityRules);
-
   useEffect(() => {
     const newMarkedDates: Record<string, any> = {};
 
@@ -65,7 +63,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
                   selected: true,
                   selectedColor: theme.colors.primary200,
                   marked: true,
-                  dotColor: theme.colors.highlight3,
+                  dotColor: theme.colors.primary100,
                 },
               }
             : {}),
@@ -104,7 +102,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
             ))
           ) : (
             <Text style={{ fontSize: 14, color: theme.colors.gray200 }}>
-              No available times
+              Sem horarios disponíveis
             </Text>
           )}
         </View>

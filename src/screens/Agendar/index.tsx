@@ -19,7 +19,10 @@ export function Agendar() {
 
         setSchedules(response);
       } catch (error) {
-        console.error('Error fetching availability schedule:', error);
+        console.error(
+          'Erro ao buscar a programação de disponibilidade:',
+          error,
+        );
       } finally {
         setLoading(false);
       }
@@ -45,7 +48,7 @@ export function Agendar() {
           <CustomCalendar availabilityRules={schedules[0].rules} />
         ) : (
           <>
-            <Message>No schedules available</Message>
+            <Message>Sem horários disponíveis</Message>
           </>
         )}
       </ScrollView>
