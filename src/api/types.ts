@@ -1,20 +1,92 @@
-export type TimeInterval = {
-  from: string;
-  to: string;
-};
-
-export type AvailabilityRule = {
-  type: 'wday' | 'date';
-  wday?: string;
-  date?: string;
-  intervals: TimeInterval[];
-};
-
-export type AvailabilitySchedule = {
-  default: boolean;
-  name: string;
-  rules: AvailabilityRule[];
-  timezone: string;
+export interface AvailabilitySchedule {
   uri: string;
+  name: string;
   user: string;
-};
+  default: boolean;
+  timezone: string;
+  rules: any[];
+}
+
+export interface AvailableTime {
+  status: string;
+  start_time: string;
+  end_time?: string;
+  scheduling_url: string;
+  date?: string;
+}
+
+export interface EventType {
+  uri: string;
+  name: string;
+  active: boolean;
+  slug: string;
+  color: string;
+  custom_questions: any[];
+  description_html: string;
+  description_plain: string;
+  duration: number;
+  kind: string;
+  pooling_type: string;
+  type: string;
+  scheduling_url: string;
+  secret: boolean;
+}
+
+export interface ScheduledEvent {
+  uri: string;
+  name: string;
+  status: string;
+  start_time: string;
+  end_time: string;
+  event_type: string;
+  location?: {
+    type: string;
+    location?: string;
+  };
+  cancellation?: {
+    canceled_by: string;
+    reason: string;
+  };
+  invitees_counter: {
+    active: number;
+    limit: number;
+    total: number;
+  };
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AvailabilityItem {
+  uri: string;
+  name: string;
+  user: string;
+  default: boolean;
+  timezone: string;
+  rules: Array<{
+    type: string;
+    wday?: number;
+    intervals?: Array<{
+      from: string;
+      to: string;
+    }>;
+    date?: string;
+  }>;
+}
+
+export interface MarkedDates {
+  [date: string]: {
+    marked: boolean;
+    dotColor?: string;
+    selected?: boolean;
+    selectedColor?: string;
+    dots?: Array<{ key: string; color: string; selectedDotColor?: string }>;
+  };
+}
+
+export interface DateData {
+  year: number;
+  month: number;
+  day: number;
+  timestamp: number;
+  dateString: string;
+}

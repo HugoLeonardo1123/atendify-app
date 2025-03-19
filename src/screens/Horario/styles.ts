@@ -1,55 +1,90 @@
-import styled from "styled-components/native"
-import theme from "../../global/styles/theme";
-import { TouchableOpacity} from "react-native";
-
+import styled from 'styled-components/native';
+import theme from '../../global/styles/theme';
 
 export const Container = styled.View`
-    flex: 1;
-    background-color: ${theme.colors.gray50};
-    padding: 16px;
+  flex: 1;
+  background-color: ${theme.colors.white};
+  padding: 20px;
 `;
 
 export const HorariosContainer = styled.View`
-    flex: 1;
-    display: flex;
-    align-items: center;
-`
+  margin-top: 20px;
+`;
 
 export const HorarioTitle = styled.Text`
-    color: ${theme.colors.primary300};
-    align-self: self-start;
-    font-size: 24px;
-    font-weight: 600;
-`
+  font-size: 20px;
+  font-weight: bold;
+  font-family: ${theme.fonts.bold};
+  color: ${theme.colors.primary300};
+  margin-top: 15px;
+  margin-bottom: 5px;
+`;
 
 export const HorarioBox = styled.View`
-    margin-top: 24px;
-    width: 95%;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: ${theme.colors.white};
-    padding: 24px 12px;
-`
+  background-color: ${theme.colors.gray50};
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  elevation: 2;
+  shadow-opacity: 0.1;
+  shadow-radius: 3px;
+  shadow-color: ${theme.colors.black};
+  shadow-offset: 0px 2px;
+`;
+
+export const EventInfoContainer = styled.View`
+  flex: 1;
+  flex-direction: column;
+`;
 
 export const HorarioDate = styled.Text`
-    color: ${theme.colors.primary300};
-    font-weight: 600;
-    font-size: 20px;
-`
+  font-size: 16px;
+  font-family: ${theme.fonts.semibold};
+  color: ${theme.colors.primary300};
+  margin-bottom: 4px;
+`;
 
-export const ButtonCancel = styled(TouchableOpacity)`
-    background-color: ${({ theme }) => theme.colors.highlight1};
-    width: 100px;
-    border-radius: 4px;
-    padding: 8px 10px;
-    align-items: center;
-    justify-content: center;
+export const HorarioTime = styled.Text`
+  font-size: 14px;
+  font-family: ${theme.fonts.regular};
+  color: ${theme.colors.primary200};
+  margin-bottom: 6px;
+`;
+
+export const HorarioDetails = styled.Text`
+  font-size: 14px;
+  font-family: ${theme.fonts.medium};
+  color: ${theme.colors.gray200};
+`;
+
+export const ButtonCancel = styled.TouchableOpacity`
+  background-color: ${theme.colors.highlight1};
+  padding: 8px 12px;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ButtonText = styled.Text`
-  color: white;
+  color: ${theme.colors.white};
+  font-family: ${theme.fonts.bold};
+  font-size: 14px;
+`;
+
+export const EmptyListMessage = styled.Text`
+  text-align: center;
+  color: ${theme.colors.gray200};
   font-size: 16px;
-  font-weight: 600;
+  font-family: ${theme.fonts.medium};
+  margin-top: 40px;
+  align-self: center;
+`;
+
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;

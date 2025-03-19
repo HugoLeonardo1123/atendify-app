@@ -1,57 +1,12 @@
-import { Container, Message } from './styles';
-import CustomCalendar from '../../components/CustomCalendar/CustomCalendar';
+import { Container } from './styles';
 import { AppHeader } from '../../components/AppHeader/AppHeader';
-import { ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
-import { AvailabilitySchedule } from '../../api/types';
-import { getUserAvailability, getUserUri } from '../../api/calendly';
+import CalendlyCalendar from '../../components/CalendlyCalendar/CalendlyCalendar';
 
 export function Agendar() {
-  const [schedules, setSchedules] = useState<AvailabilitySchedule[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAvailabilitySchedule = async () => {
-      try {
-        const uri = await getUserUri();
-        if (!uri) return;
-        const response = await getUserAvailability(uri);
-
-        setSchedules(response);
-      } catch (error) {
-        console.error(
-          'Erro ao buscar a programação de disponibilidade:',
-          error,
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAvailabilitySchedule();
-  }, []);
-
-  if (loading) {
-    return (
-      <Container>
-        <AppHeader />
-        {/* Add loading */}
-      </Container>
-    );
-  }
-
   return (
     <Container>
       <AppHeader />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {schedules.length > 0 ? (
-          <CustomCalendar availabilityRules={schedules[0].rules} />
-        ) : (
-          <>
-            <Message>Sem horários disponíveis</Message>
-          </>
-        )}
-      </ScrollView>
+      <CalendlyCalendar />
     </Container>
   );
 }
