@@ -25,7 +25,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import theme from '../../global/styles/theme';
 import { ScheduledEvent } from '../../api/types';
 import { cancelScheduledEvent, fetchEventsByEmail } from '../../api/calendly';
-import { formatEventTime } from '../../api/utils';
+import { formatEventTime, formatDate } from '../../api/utils';
 import { TEST_EMAIL } from '@env';
 
 export function Horario() {
@@ -64,14 +64,6 @@ export function Horario() {
     setRefreshing(true);
     fetchEvents();
   }, [fetchEvents]);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   const getEventName = (event: ScheduledEvent) => {
     const uriParts = event.uri.split('/');

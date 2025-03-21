@@ -1,12 +1,7 @@
 import axios from 'axios';
 import { Linking } from 'react-native';
 import { CALENDLY_TOKEN, CALENDLY_USER_URI, BASE_URL } from '@env';
-import {
-  AvailabilityItem,
-  AvailableTime,
-  EventType,
-  ScheduledEvent,
-} from './types';
+import { AvailableTime, EventType, ScheduledEvent } from './types';
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -30,22 +25,6 @@ export const fetchEventTypes = async (): Promise<EventType[]> => {
   } catch (error: any) {
     console.error(
       'Error fetching event types:',
-      error.response?.data || error.message,
-    );
-    return [];
-  }
-};
-
-export const getUserAvailability = async (): Promise<AvailabilityItem[]> => {
-  try {
-    const response = await api.get('/user_availability_schedules', {
-      params: { user: CALENDLY_USER_URI },
-    });
-
-    return response.data.collection || [];
-  } catch (error: any) {
-    console.error(
-      'Error fetching user availability:',
       error.response?.data || error.message,
     );
     return [];

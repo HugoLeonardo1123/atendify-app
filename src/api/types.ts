@@ -1,11 +1,4 @@
-export interface AvailabilitySchedule {
-  uri: string;
-  name: string;
-  user: string;
-  default: boolean;
-  timezone: string;
-  rules: any[];
-}
+import { MultiDotMarking } from 'react-native-calendars';
 
 export interface AvailableTime {
   status: string;
@@ -74,12 +67,9 @@ export interface AvailabilityItem {
 }
 
 export interface MarkedDates {
-  [date: string]: {
-    marked: boolean;
-    dotColor?: string;
+  [date: string]: MultiDotMarking & {
     selected?: boolean;
     selectedColor?: string;
-    dots?: Array<{ key: string; color: string; selectedDotColor?: string }>;
   };
 }
 

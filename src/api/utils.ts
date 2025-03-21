@@ -1,3 +1,4 @@
+import { CalendarDot, MultiDotMarking } from 'react-native-calendars';
 import { AvailableTime, ScheduledEvent } from './types';
 
 export const groupAvailableTimesByDate = (
@@ -77,94 +78,42 @@ export const isTimeSlotAvailable = (
   });
 };
 
-export const prepareBookedCalendarMarkedDates = (
-  groupedEvents: Record<string, ScheduledEvent[]>,
-) => {
-  const markedDates: Record<string, { marked: boolean; dots?: any[] }> = {};
-
-  Object.keys(groupedEvents).forEach((date) => {
-    markedDates[date] = {
-      marked: true,
-      dots: [
-        {
-          key: 'booked',
-          color: 'red',
-          selectedDotColor: 'red',
-        },
-      ],
-    };
-  });
-
-  return markedDates;
-};
-
-export const combineCalendarData = (
-  availableTimes: Record<string, any[]>,
-  scheduledEvents: Record<string, ScheduledEvent[]>,
-) => {
-  const combinedData: Record<
-    string,
-    {
-      available: any[];
-      booked: ScheduledEvent[];
-    }
-  > = {};
-
-  Object.keys(availableTimes).forEach((date) => {
-    if (!combinedData[date]) {
-      combinedData[date] = {
-        available: [],
-        booked: [],
-      };
-    }
-    combinedData[date].available = availableTimes[date];
-  });
-
-  Object.keys(scheduledEvents).forEach((date) => {
-    if (!combinedData[date]) {
-      combinedData[date] = {
-        available: [],
-        booked: [],
-      };
-    }
-    combinedData[date].booked = scheduledEvents[date];
-  });
-
-  return combinedData;
-};
-
 export const prepareCalendarMarkedDates = (
   availableDates: string[],
   bookedDates: string[],
   selectedDate?: string,
-) => {
-  const markedDates: Record<string, any> = {};
+): Record<string, MultiDotMarking> => {
+  const markedDates: Record<string, MultiDotMarking> = {};
 
   availableDates.forEach((date) => {
     markedDates[date] = {
-      marked: true,
-      dotColor: '#50cebb',
-      dots: [{ key: 'available', color: '#50cebb' }],
-      selected: date === selectedDate,
-      selectedColor: date === selectedDate ? '#4f9cbd' : undefined,
+      dots: [{ key: 'available', color: '#50cebb' }] as CalendarDot[],
     };
   });
 
   bookedDates.forEach((date) => {
-    if (markedDates[date]) {
-      if (!markedDates[date].dots) {
-        markedDates[date].dots = [];
-      }
-      markedDates[date].dots.push({ key: 'booked', color: '#ff6b6b' });
-    } else {
-      markedDates[date] = {
-        marked: true,
-        dots: [{ key: 'booked', color: '#ff6b6b' }],
-        selected: date === selectedDate,
-        selectedColor: date === selectedDate ? '#4f9cbd' : undefined,
-      };
+    if (!markedDates[date]) {
+      markedDates[date] = { dots: [] };
     }
+
+    markedDates[date].dots.push({ key: 'booked', color: '#ff6b6b' });
   });
 
+  if (selectedDate) {
+    markedDates[selectedDate] = {
+      dots: markedDates[selectedDate]?.dots ?? [],
+      selected: true,
+      selectedColor: '#4f9cbd',
+    };
+  }
+
   return markedDates;
+};
+
+export const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
 };

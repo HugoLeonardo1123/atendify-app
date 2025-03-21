@@ -5,7 +5,6 @@ import {
   fetchEventTypes,
   fetchAvailableTimes,
   scheduleMeeting,
-  getUserAvailability,
   fetchScheduledEvents,
 } from '../../api/calendly';
 import {
@@ -14,10 +13,8 @@ import {
   formatTime,
   isTimeSlotAvailable,
   prepareCalendarMarkedDates,
-  combineCalendarData,
 } from '../../api/utils';
 import {
-  AvailabilitySchedule,
   AvailableTime,
   EventType,
   ScheduledEvent,
@@ -64,7 +61,6 @@ const CalendlyCalendar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [events, setEvents] = useState<EventType[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
-  const [availableTimes, setAvailableTimes] = useState<AvailableTime[]>([]);
   const [groupedTimes, setGroupedTimes] = useState<
     Record<string, AvailableTime[]>
   >({});
@@ -73,7 +69,6 @@ const CalendlyCalendar: React.FC = () => {
     Record<string, ScheduledEvent[]>
   >({});
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
-  const [combinedData, setCombinedData] = useState<any>(null);
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [showTimesModal, setShowTimesModal] = useState<boolean>(false);
@@ -83,22 +78,6 @@ const CalendlyCalendar: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
-  const [schedules, setSchedules] = useState<AvailabilitySchedule[]>([]);
-
-  useEffect(() => {
-    const fetchAvailabilitySchedule = async () => {
-      try {
-        const response = await getUserAvailability();
-        setSchedules(response);
-      } catch (error) {
-        console.error(
-          'Erro ao buscar a programação de disponibilidade:',
-          error,
-        );
-      }
-    };
-    fetchAvailabilitySchedule();
-  }, []);
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -142,13 +121,9 @@ const CalendlyCalendar: React.FC = () => {
       setGroupedEvents(groupedBooked);
 
       const times = await fetchAvailableTimes(selectedEvent.uri, 30);
-      setAvailableTimes(times);
 
       const groupedAvailable = groupAvailableTimesByDate(times);
       setGroupedTimes(groupedAvailable);
-
-      const combined = combineCalendarData(groupedAvailable, groupedBooked);
-      setCombinedData(combined);
 
       const availableDates = Object.keys(groupedAvailable);
       const bookedDates = Object.keys(groupedBooked);
@@ -291,7 +266,7 @@ const CalendlyCalendar: React.FC = () => {
         <SectionTitle>Datas disponíveis:</SectionTitle>
         <LegendContainer>
           <LegendItem>
-            <LegendDot color={theme.colors.highlight4} />
+            <LegendDot color={theme.colors.highlight5} />
             <LegendText>Disponível</LegendText>
           </LegendItem>
           <LegendItem>
