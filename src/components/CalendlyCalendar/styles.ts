@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+
 import { ActivityIndicator } from 'react-native';
 import theme from '../../global/styles/theme';
 
@@ -40,24 +41,22 @@ export const EventSelector = styled.View`
 export const EventButton = styled.TouchableOpacity<{ selected?: boolean }>`
   padding: 12px;
   margin-right: 10px;
-  background-color: ${(props: { selected: any }) =>
+  background-color: ${(props) =>
     props.selected ? theme.colors.primary200 : theme.colors.gray50};
   border-radius: 8px;
   border-width: 1px;
-  border-color: ${(props: { selected: any }) =>
+  border-color: ${(props) =>
     props.selected ? theme.colors.primary200 : theme.colors.gray200};
 `;
 
 export const EventButtonText = styled.Text<{ selected?: boolean }>`
   font-size: 14px;
-  color: ${(props: { selected: any }) =>
+  color: ${(props) =>
     props.selected ? theme.colors.white : theme.colors.primary300};
   font-family: ${theme.fonts.medium};
 `;
 
-export const CalendarContainer = styled.View`
-  /* Add any additional styling for the calendar container if needed */
-`;
+export const CalendarContainer = styled.View``;
 
 export const ModalContainer = styled.View`
   flex: 1;

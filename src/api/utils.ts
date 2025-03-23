@@ -1,5 +1,10 @@
-import { CalendarDot, MultiDotMarking } from 'react-native-calendars';
-import { AvailableTime, ScheduledEvent } from './types';
+import { LocaleConfig } from 'react-native-calendars';
+import {
+  AvailableTime,
+  CalendarDot,
+  MultiDotMarking,
+  ScheduledEvent,
+} from './types';
 
 export const groupAvailableTimesByDate = (
   availableTimes: AvailableTime[],
@@ -87,7 +92,7 @@ export const prepareCalendarMarkedDates = (
 
   availableDates.forEach((date) => {
     markedDates[date] = {
-      dots: [{ key: 'available', color: '#50cebb' }] as CalendarDot[],
+      dots: [{ key: 'available', color: '#50cebb' }],
     };
   });
 
@@ -96,7 +101,11 @@ export const prepareCalendarMarkedDates = (
       markedDates[date] = { dots: [] };
     }
 
-    markedDates[date].dots.push({ key: 'booked', color: '#ff6b6b' });
+    if (!markedDates[date].dots) {
+      markedDates[date].dots = [];
+    }
+
+    markedDates[date].dots!.push({ key: 'booked', color: '#ff6b6b' });
   });
 
   if (selectedDate) {
@@ -116,4 +125,48 @@ export const formatDate = (dateString: string) => {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
+};
+
+export const configureCalendarLocale = () => {
+  LocaleConfig.locales['pt-br'] = {
+    monthNames: [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ],
+    monthNamesShort: [
+      'Jan',
+      'Fev',
+      'Mar',
+      'Abr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Set',
+      'Out',
+      'Nov',
+      'Dez',
+    ],
+    dayNames: [
+      'Domingo',
+      'Segunda-feira',
+      'Terça-feira',
+      'Quarta-feira',
+      'Quinta-feira',
+      'Sexta-feira',
+      'Sábado',
+    ],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+  };
+  LocaleConfig.defaultLocale = 'pt-br';
 };

@@ -3,14 +3,15 @@ import {
   HomeBody,
   IconBox,
   InfoBox,
+  InfoBoxDisplay,
   InfoText,
+  InfoText2,
   ProfessorInfo,
   ProfessorName,
   ProfessorPhoto,
 } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Octicons from '@expo/vector-icons/Octicons';
 import { InfoBoxComponent } from '../../components/InfoBoxContent';
 import theme from '../../global/styles/theme';
 import { RootStackParamList } from '../../types/types';
@@ -42,12 +43,9 @@ export function Home() {
           <ProfessorPhoto></ProfessorPhoto>
           <ProfessorName>Leonardo</ProfessorName>
         </ProfessorInfo>
-        <InfoBox>
-          <IconBox bgColor={theme.colors.highlight1}>
-            <Octicons name="number" size={24} color="white" />
-          </IconBox>
-          <InfoText>4 agendamentos</InfoText>
-        </InfoBox>
+        <InfoBoxDisplay>
+          <InfoText2>4 agendamentos</InfoText2>
+        </InfoBoxDisplay>
         <InfoBoxComponent
           onPress={navegarParaHorarios}
           icon={<MaterialIcons name="schedule" size={24} color="white" />}

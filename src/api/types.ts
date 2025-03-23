@@ -1,5 +1,3 @@
-import { MultiDotMarking } from 'react-native-calendars';
-
 export interface AvailableTime {
   status: string;
   start_time: string;
@@ -79,4 +77,15 @@ export interface DateData {
   day: number;
   timestamp: number;
   dateString: string;
+}
+
+export interface CalendarDot {
+  key: string;
+  color: string;
+}
+
+export interface MultiDotMarking {
+  dots?: CalendarDot[];
+  selected?: boolean;
+  selectedColor?: string;
 }

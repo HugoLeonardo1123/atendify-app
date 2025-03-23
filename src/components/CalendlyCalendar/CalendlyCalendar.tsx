@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, Modal, ScrollView } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import {
   fetchEventTypes,
   fetchAvailableTimes,
@@ -13,6 +13,7 @@ import {
   formatTime,
   isTimeSlotAvailable,
   prepareCalendarMarkedDates,
+  configureCalendarLocale,
 } from '../../api/utils';
 import {
   AvailableTime,
@@ -28,9 +29,6 @@ import theme, {
   LoadingText,
   StyledActivityIndicator,
   SectionTitle,
-  EventSelector,
-  EventButton,
-  EventButtonText,
   CalendarContainer,
   ModalContainer,
   ModalContent,
@@ -243,7 +241,8 @@ const CalendlyCalendar: React.FC = () => {
 
   return (
     <Container>
-      {events.length > 1 && (
+      {/* Não consigo testar mais de um tipo de evento no plano gratuito, entao deixei comentado abaixo o codigo */}
+      {/* {events.length > 1 && (
         <EventSelector>
           <SectionTitle>Tipo de reunião:</SectionTitle>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -260,7 +259,7 @@ const CalendlyCalendar: React.FC = () => {
             ))}
           </ScrollView>
         </EventSelector>
-      )}
+      )} */}
 
       <CalendarContainer>
         <SectionTitle>Datas disponíveis:</SectionTitle>
@@ -275,6 +274,7 @@ const CalendlyCalendar: React.FC = () => {
           </LegendItem>
         </LegendContainer>
         <Calendar
+          locale="pt-br"
           markingType="multi-dot"
           markedDates={markedDates}
           onDayPress={handleDateSelect}
