@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, Modal, ScrollView } from 'react-native';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Alert, Modal, ScrollView, RefreshControl } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import {
   fetchEventTypes,
   fetchAvailableTimes,
@@ -57,6 +57,7 @@ import theme, {
 
 const CalendlyCalendar: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
   const [events, setEvents] = useState<EventType[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
   const [groupedTimes, setGroupedTimes] = useState<
@@ -76,6 +77,8 @@ const CalendlyCalendar: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [question, setQuestion] = useState<string>('');
+
+  configureCalendarLocale();
 
   useEffect(() => {
     const loadEvents = async () => {
@@ -110,7 +113,9 @@ const CalendlyCalendar: React.FC = () => {
     if (!selectedEvent) return;
 
     try {
-      setLoading(true);
+      if (!refreshing) {
+        setLoading(true);
+      }
 
       const booked = await fetchScheduledEvents(7, 30);
       setScheduledEvents(booked);
@@ -140,8 +145,14 @@ const CalendlyCalendar: React.FC = () => {
       );
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    loadCalendarData();
+  }, [selectedEvent]);
 
   const handleDateSelect = (day: DateData) => {
     const dateString = day.dateString;
@@ -230,7 +241,7 @@ const CalendlyCalendar: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (loading && !refreshing) {
     return (
       <LoadingContainer>
         <StyledActivityIndicator />
@@ -261,26 +272,37 @@ const CalendlyCalendar: React.FC = () => {
         </EventSelector>
       )} */}
 
-      <CalendarContainer>
-        <SectionTitle>Datas disponíveis:</SectionTitle>
-        <LegendContainer>
-          <LegendItem>
-            <LegendDot color={theme.colors.highlight5} />
-            <LegendText>Disponível</LegendText>
-          </LegendItem>
-          <LegendItem>
-            <LegendDot color={theme.colors.highlight1} />
-            <LegendText>Reservado</LegendText>
-          </LegendItem>
-        </LegendContainer>
-        <Calendar
-          locale="pt-br"
-          markingType="multi-dot"
-          markedDates={markedDates}
-          onDayPress={handleDateSelect}
-          theme={calendarTheme}
-        />
-      </CalendarContainer>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[theme.colors.primary200]}
+          />
+        }
+      >
+        <CalendarContainer>
+          <SectionTitle>Datas disponíveis:</SectionTitle>
+          <LegendContainer>
+            <LegendItem>
+              <LegendDot color={theme.colors.highlight5} />
+              <LegendText>Disponível</LegendText>
+            </LegendItem>
+            <LegendItem>
+              <LegendDot color={theme.colors.highlight1} />
+              <LegendText>Reservado</LegendText>
+            </LegendItem>
+          </LegendContainer>
+          <Calendar
+            locale="pt-br"
+            markingType="multi-dot"
+            markedDates={markedDates}
+            onDayPress={handleDateSelect}
+            theme={calendarTheme}
+          />
+        </CalendarContainer>
+      </ScrollView>
 
       <Modal
         visible={showTimesModal}
@@ -318,54 +340,59 @@ const CalendlyCalendar: React.FC = () => {
       >
         <ModalContainer>
           <ModalContent>
-            <ModalTitle>Agendar Reunião</ModalTitle>
+            <ScrollView
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={{ paddingBottom: 20 }}
+            >
+              <ModalTitle>Agendar Reunião</ModalTitle>
 
-            {selectedTime && (
-              <AppointmentInfo>
-                Data: {selectedDate} às {formatTime(selectedTime.start_time)}
-              </AppointmentInfo>
-            )}
+              {selectedTime && (
+                <AppointmentInfo>
+                  Data: {selectedDate} às {formatTime(selectedTime.start_time)}
+                </AppointmentInfo>
+              )}
 
-            <FormGroup>
-              <Label>Nome*</Label>
-              <Input
-                value={name}
-                onChangeText={setName}
-                placeholder="Seu nome completo"
-              />
-            </FormGroup>
+              <FormGroup>
+                <Label>Nome*</Label>
+                <Input
+                  value={name}
+                  onChangeText={setName}
+                  placeholder="Seu nome completo"
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <Label>Email*</Label>
-              <Input
-                value={email}
-                onChangeText={setEmail}
-                placeholder="seu.email@exemplo.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </FormGroup>
+              <FormGroup>
+                <Label>Email*</Label>
+                <Input
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="seu.email@exemplo.com"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </FormGroup>
 
-            <FormGroup>
-              <Label>Observações (opcional)</Label>
-              <TextArea
-                value={question}
-                onChangeText={setQuestion}
-                placeholder="Alguma informação adicional para o professor?"
-                multiline
-                numberOfLines={4}
-              />
-            </FormGroup>
+              <FormGroup>
+                <Label>Observações (opcional)</Label>
+                <TextArea
+                  value={question}
+                  onChangeText={setQuestion}
+                  placeholder="Alguma informação adicional para o professor?"
+                  multiline
+                  numberOfLines={4}
+                />
+              </FormGroup>
 
-            <ButtonContainer>
-              <CancelButton onPress={() => setShowScheduleModal(false)}>
-                <CancelButtonText>Cancelar</CancelButtonText>
-              </CancelButton>
+              <ButtonContainer>
+                <CancelButton onPress={() => setShowScheduleModal(false)}>
+                  <CancelButtonText>Cancelar</CancelButtonText>
+                </CancelButton>
 
-              <ConfirmButton onPress={handleScheduleSubmit}>
-                <ConfirmButtonText>Confirmar</ConfirmButtonText>
-              </ConfirmButton>
-            </ButtonContainer>
+                <ConfirmButton onPress={handleScheduleSubmit}>
+                  <ConfirmButtonText>Confirmar</ConfirmButtonText>
+                </ConfirmButton>
+              </ButtonContainer>
+            </ScrollView>
           </ModalContent>
         </ModalContainer>
       </Modal>

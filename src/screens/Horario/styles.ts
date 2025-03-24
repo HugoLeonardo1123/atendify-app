@@ -3,7 +3,7 @@ import theme from '../../global/styles/theme';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.gray50};
   padding: 20px;
 `;
 
@@ -21,7 +21,7 @@ export const HorarioTitle = styled.Text`
 `;
 
 export const HorarioBox = styled.View`
-  background-color: ${theme.colors.gray50};
+  background-color: ${theme.colors.white};
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 10px;
@@ -31,7 +31,7 @@ export const HorarioBox = styled.View`
   elevation: 2;
   shadow-opacity: 0.1;
   shadow-radius: 3px;
-  shadow-color: ${theme.colors.black};
+  shadow-color: ${theme.colors.gray200};
   shadow-offset: 0px 2px;
 `;
 

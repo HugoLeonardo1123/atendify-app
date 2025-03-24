@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 import theme from '../../global/styles/theme';
+import { KeyboardAvoidingView } from 'react-native';
 
-export const Container = styled.View`
+export const SafeContainer = styled(KeyboardAvoidingView)`
   flex: 1;
   background-color: ${theme.colors.gray50};
-  padding: 16px;
 `;
 
-export const Message = styled.Text`
-  color: ${theme.colors.primary300};
-  font-size: 24px;
+export const ContentContainer = styled.View`
+  flex: 1;
+  padding: 16px;
 `;
