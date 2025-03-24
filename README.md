@@ -43,4 +43,12 @@ Nesta etapa, foi realizada a implementação do front-end do aplicativo, com bas
 - ✅ **Padrões de organização de pastas conforme indicado nas aulas e videoaulas**.  
 - ✅ **Front-end das telas (JSX + estilos) implementado conforme o design no Figma**.  
 - ✅ **Navegação entre telas funcional**.
+- 
+### 📌 Etapa 04 - Integração com a API do Calendly  
+
+Nesta etapa, realizamos a integração do front-end com a API do **Calendly**. A implementação incluiu os seguintes itens obrigatórios para avaliação:  
+
+- ✅ **Configuração das variáveis de ambiente necessárias** (Ex: token do usuário e URL da API).  
+- ✅ **Integração completa do front-end com o back-end**, permitindo que os agendamentos e alterações sejam salvos na conta do Calendly.  
+- ✅ **Exibição dos agendamentos realizados e a realizar**, garantindo que os usuários possam visualizar suas marcações.  
 
