@@ -63,14 +63,15 @@ export const ModalContainer = styled.View`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  padding-horizontal: 20px;
 `;
 
 export const ModalContent = styled.View`
-  width: 85%;
+  width: 100%;
   background-color: ${theme.colors.white};
   border-radius: 12px;
   padding: 20px;
-  max-height: 80%;
+  max-height: 90%;
 `;
 
 export const ModalTitle = styled.Text`
