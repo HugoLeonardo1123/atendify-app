@@ -1,4 +1,4 @@
-package com.anonymous.Atendify2025
+package com.atendify2025.app
 
 import android.os.Build
 import android.os.Bundle

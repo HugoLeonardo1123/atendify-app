@@ -12,7 +12,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#EEEEEE"
     },
+    "scheme": "atendify2025",
+    "platforms": ["ios", "android"],
     "ios": {
+      "bundleIdentifier": "com.atendify2025.app",
       "supportsTablet": true
     },
     "android": {
@@ -21,10 +24,16 @@
         "backgroundColor": "#EEEEEE"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.anonymous.Atendify2025"
+      "package": "com.atendify2025.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "28879798-c0c7-4fe9-8bbb-a8fd602b874a"
+      }
     }
   }
 }

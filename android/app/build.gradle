@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.Atendify2025'
+    namespace 'com.atendify2025.app'
     defaultConfig {
-        applicationId 'com.anonymous.Atendify2025'
+        applicationId 'com.atendify2025.app'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
