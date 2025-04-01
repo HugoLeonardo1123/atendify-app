@@ -1,6 +1,7 @@
 export type RootStackParamList = {
-    Home: undefined;
-    Scheduling: undefined;
-    Agendar: undefined;
-    Horario: undefined;
+  Home: undefined;
+  Scheduling: undefined;
+  Agendar: undefined;
+  Horario: undefined;
+  Login: undefined;
 };
