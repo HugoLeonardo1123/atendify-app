@@ -1,11 +1,6 @@
 import {
   Container,
   HomeBody,
-  IconBox,
-  InfoBox,
-  InfoBoxDisplay,
-  InfoText,
-  InfoText2,
   ProfessorInfo,
   ProfessorName,
   ProfessorPhoto,
@@ -40,12 +35,11 @@ export function Home() {
       <AppHeader />
       <HomeBody>
         <ProfessorInfo>
-          <ProfessorPhoto></ProfessorPhoto>
+          <ProfessorPhoto
+            source={require('../../../assets/default-avatar-48.png')}
+          ></ProfessorPhoto>
           <ProfessorName>Leonardo</ProfessorName>
         </ProfessorInfo>
-        <InfoBoxDisplay>
-          <InfoText2>4 agendamentos</InfoText2>
-        </InfoBoxDisplay>
         <InfoBoxComponent
           onPress={navegarParaHorarios}
           icon={<MaterialIcons name="schedule" size={24} color="white" />}

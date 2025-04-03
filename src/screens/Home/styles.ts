@@ -21,7 +21,7 @@ export const ProfessorInfo = styled.View`
   border-radius: 8px;
 `;
 
-export const ProfessorPhoto = styled.View`
+export const ProfessorPhoto = styled.Image`
   width: 50px;
   height: 50px;
   border-radius: 25px;
