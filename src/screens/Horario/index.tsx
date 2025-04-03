@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import {
   ScrollView,
   ActivityIndicator,
@@ -26,18 +26,20 @@ import theme from '../../global/styles/theme';
 import { ScheduledEvent } from '../../api/types';
 import { cancelScheduledEvent, fetchEventsByEmail } from '../../api/calendly';
 import { formatEventTime, formatDate } from '../../api/utils';
-import { TEST_EMAIL } from '@env';
+import { AuthContext } from '../../context/AuthContext';
 
 export function Horario() {
   const [events, setEvents] = useState<ScheduledEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useContext(AuthContext);
 
-  const userEmail = TEST_EMAIL;
+  const userEmail = user?.email;
 
   const fetchEvents = useCallback(async () => {
     try {
+      if (!user || !userEmail) return;
       setError(null);
       const response = await fetchEventsByEmail(userEmail);
 
