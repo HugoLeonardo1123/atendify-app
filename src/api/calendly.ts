@@ -229,3 +229,19 @@ export const scheduleMeeting = async (
     return false;
   }
 };
+
+export const fetchUserInfo = async (): Promise<{ name: string } | null> => {
+  try {
+    const response = await api.get('/users/me');
+
+    const name = response.data.resource.name;
+
+    return { name };
+  } catch (error: any) {
+    console.error(
+      'Error fetching user info:',
+      error.response?.data || error.message,
+    );
+    return null;
+  }
+};
